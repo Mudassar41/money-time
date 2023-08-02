@@ -1,0 +1,12 @@
+com.tekartik.sqflite-core-1.6.0-0 C:\Users\mudas\.gradle\caches\transforms-3\03204e7a863cd68980f40b7d5a3e5e44\transformed\core-1.6.0\res
+com.tekartik.sqflite-jetified-window-java-1.0.0-beta04-1 C:\Users\mudas\.gradle\caches\transforms-3\4aa4d160ec8811646ef49f7559ae16f1\transformed\jetified-window-java-1.0.0-beta04\res
+com.tekartik.sqflite-jetified-annotation-experimental-1.1.0-2 C:\Users\mudas\.gradle\caches\transforms-3\8c07c387b91aa9a0f423e4416f85725d\transformed\jetified-annotation-experimental-1.1.0\res
+com.tekartik.sqflite-jetified-window-1.0.0-beta04-3 C:\Users\mudas\.gradle\caches\transforms-3\e4a8944d2b7a868dd4d180b83310bada\transformed\jetified-window-1.0.0-beta04\res
+com.tekartik.sqflite-main-4 C:\Users\mudas\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.2.8+4\android\src\main\res
+com.tekartik.sqflite-release-5 C:\Users\mudas\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite-2.2.8+4\android\src\release\res
+com.tekartik.sqflite-pngs-6 E:\flutter projects\money time\build\sqflite\generated\res\pngs\release
+com.tekartik.sqflite-resValues-7 E:\flutter projects\money time\build\sqflite\generated\res\resValues\release
+com.tekartik.sqflite-rs-8 E:\flutter projects\money time\build\sqflite\generated\res\rs\release
+com.tekartik.sqflite-mergeReleaseResources-9 E:\flutter projects\money time\build\sqflite\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.tekartik.sqflite-mergeReleaseResources-10 E:\flutter projects\money time\build\sqflite\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.tekartik.sqflite-merged_res-11 E:\flutter projects\money time\build\sqflite\intermediates\merged_res\release

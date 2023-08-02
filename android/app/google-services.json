@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "341275573777",
+    "project_id": "money-time-app",
+    "storage_bucket": "money-time-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341275573777:android:03e8c0e02e2452c3703bb0",
+        "android_client_info": {
+          "package_name": "com.moneytime.money_time"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341275573777-2c68ja7vkr85sgnen5jf9cmagnvm13gf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwidsCGBkgLZKoIPfSBVuWwWHC0myNofY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341275573777-2c68ja7vkr85sgnen5jf9cmagnvm13gf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
