@@ -43,7 +43,10 @@ class AddEditLocationScreen extends StatelessWidget {
                     isNewLocation, "");
               else
                 _adminController.handleAddOrUpdateButtonPress(
-                    isNewLocation, locationModel!.locationId);
+                  isNewLocation,
+                  locationModel!.locationId,
+                  locationModel: locationModel,
+                );
             },
             label: LargeText(
               text: isNewLocation ? "ADD LOCATION" : "UPDATE LOCATION",
@@ -189,6 +192,10 @@ class AddEditLocationScreen extends StatelessWidget {
                                     onTap: () {
                                       _adminController.parishController.text =
                                           _adminController.regions[index].name;
+
+                                      _adminController.getRegionBanks(
+                                        _adminController.regions[index].id!,
+                                      );
                                     },
                                     child: SmallText(
                                       text:
@@ -518,15 +525,23 @@ class AddEditLocationScreen extends StatelessWidget {
                                           ),
                                           itemBuilder: (_) {
                                             return List.generate(
-                                              banksList.length,
+                                              _adminController
+                                                  .regionBanks.length,
                                               (index) => PopupMenuItem(
                                                 onTap: () {
                                                   _adminController
-                                                      .bankNameController
-                                                      .text = banksList[index];
+                                                          .bankNameController
+                                                          .text =
+                                                      _adminController
+                                                          .regionBanks
+                                                          .value[index]
+                                                          .name;
                                                 },
                                                 child: SmallText(
-                                                  text: banksList[index],
+                                                  text: _adminController
+                                                      .regionBanks
+                                                      .value[index]
+                                                      .name,
                                                 ),
                                               ),
                                             );

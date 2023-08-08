@@ -7,10 +7,12 @@ import '../utils/theme/colors.dart';
 class ImageController {
   static final ImagePicker _picker = ImagePicker();
 
-  static Future<File?> pickMediaWithCropper(
-      {bool isFromGallery = true, bool isCircle = false,
-     double ratioX= 16,
-     double ratioY=10}) async {
+  static Future<File?> pickMediaWithCropper({
+    bool isFromGallery = true,
+    bool isCircle = false,
+    double ratioX = 16,
+    double ratioY = 10,
+  }) async {
     Services.showLoading();
     final file = await _picker.pickImage(
         source: isFromGallery ? ImageSource.gallery : ImageSource.camera);
@@ -22,14 +24,10 @@ class ImageController {
     final CroppedFile? _croppedFile = await ImageCropper().cropImage(
         sourcePath: file.path,
         cropStyle: isCircle ? CropStyle.circle : CropStyle.rectangle,
-     aspectRatio:CropAspectRatio(ratioX:ratioX, ratioY: ratioY),
-    
-        
+        aspectRatio: CropAspectRatio(ratioX: ratioX, ratioY: ratioY),
         uiSettings: [
-        
           AndroidUiSettings(
-        hideBottomControls: true,
-              activeControlsWidgetColor:  kPrimary),
+              hideBottomControls: true, activeControlsWidgetColor: kPrimary),
           // IOSUiSettings(
           //   activeControlsWidgetColor: AuthController.instance.isDoctor.isFalse?primaryBlue:primaryTeal
 

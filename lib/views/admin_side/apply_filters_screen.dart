@@ -51,8 +51,10 @@ class ApplyFiltersScreen extends StatelessWidget {
                             _adminController.regions[index].name;
 
                         _adminController.getRegionBanks(
-                            _adminController.regions[index].id!);
-                        _adminController.bankNameController1.text='Select bank';
+                          _adminController.regions[index].id!,
+                        );
+                        _adminController.bankNameController1.text =
+                            'Select bank';
                       },
                       child: SmallText(
                         text: _adminController.regions[index].name,
@@ -92,7 +94,7 @@ class ApplyFiltersScreen extends StatelessWidget {
                                       .regionBanks.value[index].name;
                             },
                             child: SmallText(
-                              text:_adminController
+                              text: _adminController
                                   .regionBanks.value[index].name,
                               color: Colors.black,
                               maxLines: 2,

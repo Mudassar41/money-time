@@ -102,7 +102,8 @@ class AdminController extends GetxController {
     isEmployeeListLoading(false);
   }
 
-  handleAddOrUpdateButtonPress(bool isNewLocation, String locationId) {
+  handleAddOrUpdateButtonPress(bool isNewLocation, String locationId,
+      {LocationModel? locationModel}) {
     if (locationFormKey.currentState!.validate()) {
       if (atmsList.isEmpty) {
         Get.snackbar("Error", "Please add an ATM",
@@ -118,7 +119,7 @@ class AdminController extends GetxController {
         if (isNewLocation) {
           addNewLocation();
         } else {
-          updateLocation(locationId);
+          updateLocation(locationId, locationModel!);
         }
       }
     }
@@ -195,7 +196,7 @@ class AdminController extends GetxController {
     Services.hideLoading();
   }
 
-  updateLocation(String locationId) async {
+  updateLocation(String locationId, LocationModel locationModel1) async {
     Services.showLoading();
     if (atmImage.value != null && atmImage.value!.path.isNotEmpty) {
       atmImageUrl.value = (await Services.updateUploadedFile(
@@ -215,7 +216,11 @@ class AdminController extends GetxController {
       employeeId: employeeId.value,
       imageUrl: atmImageUrl.value,
       atms: atmsList,
+      avgWaitTimeInMin: locationModel1.avgWaitTimeInMin,
+      avgWaitTimeInHrs: locationModel1.avgWaitTimeInHrs,
     );
+
+    print(locationModel);
     await FirebaseServices().updateExistingLocation(locationModel);
     getLocations();
     Get.back();

@@ -8,20 +8,22 @@ import '../utils.dart';
 import 'custom_shimmer.dart';
 
 class CustomImage extends StatelessWidget {
+  const CustomImage({
+    super.key,
+    this.pathOrUrl,
+    this.height,
+    this.width,
+    this.margin,
+    this.color,
+    this.fit,
+  });
+
   final String? pathOrUrl;
   final double? height;
   final double? width;
   final EdgeInsets? margin;
   final Color? color;
   final BoxFit? fit;
-  const CustomImage(
-      {super.key,
-      this.pathOrUrl,
-      this.height,
-      this.width,
-      this.margin,
-      this.color,
-      this.fit});
 
   @override
   Widget build(BuildContext context) {
