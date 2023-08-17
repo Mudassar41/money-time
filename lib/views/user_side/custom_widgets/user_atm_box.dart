@@ -26,6 +26,8 @@ class UserAtmBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
+
+
         padding: getPadding(all: 8),
         isShadow: false,
         border: Border.all(
@@ -120,54 +122,70 @@ class UserAtmBox extends StatelessWidget {
             // ),
             Row(
               children: [
-                if (isSmart)
-                  LargeText(
-                    text: 'Smart',
-                    color: Colors.black,
-                    size: 13,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: AppFonts.montserratRegular,
-                  ),
-                if (isDualCurrency)
-                  Row(
-                    children: [
-                      VerticalLine(),
-                      LargeText(
-                        text: 'Dual Currency',
-                        color: Colors.black,
-                        size: 13,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppFonts.montserratRegular,
-                      ),
-                    ],
-                  ),
-                if (isBranch)
-                  Row(
-                    children: [
-                      VerticalLine(),
-                      LargeText(
-                        text: 'Branch',
-                        color: Colors.black,
-                        size: 14,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppFonts.montserratRegular,
-                      ),
-                    ],
-                  ),
+                SizedBox(),
+                Expanded(
 
-                if (isDrive)
-                  Row(
+                  child: Row(
                     children: [
-                      VerticalLine(),
-                      LargeText(
-                        text: 'Drive Through',
-                        color: Colors.black,
-                        size: 14,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: AppFonts.montserratRegular,
-                      ),
+                      if (isSmart)
+                        Row(
+                          children: [
+                            LargeText(
+                              text: 'Smart',
+                              color: Colors.black,
+                              size: 13,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppFonts.montserratRegular,
+                            ),
+                          ],
+                        ),
+                      if (isDualCurrency)
+                        Row(
+                          children: [
+                            VerticalLine(),
+                            LargeText(
+                              text: 'Dual Currency',
+                              color: Colors.black,
+                              size: 13,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppFonts.montserratRegular,
+                            ),
+                          ],
+                        ),
+                      if (isBranch)
+                        Row(
+                          children: [
+                            VerticalLine(),
+                            LargeText(
+                              text: 'Branch',
+                              color: Colors.black,
+                              size: 14,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: AppFonts.montserratRegular,
+                            ),
+                          ],
+                        ),
+
+                      if (isDrive)
+                        Flexible(
+                          child: Row(
+                            children: [
+                              VerticalLine(),
+                              Flexible(
+                                child: LargeText(
+                                  text: 'Drive Thu',
+                                  color: Colors.black,
+                                  size: 14,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: AppFonts.montserratRegular,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
+                ),
               ],
             ),
             // SizedBox(width: getHorizontalSize(5)),

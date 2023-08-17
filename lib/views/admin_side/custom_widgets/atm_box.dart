@@ -117,6 +117,8 @@ class AtmBox extends StatelessWidget {
 
     if (atmModel.isDualCurrency) type += "/Dual Currency";
     if (atmModel.driveThrough) type += '/Drive Through';
+    if (atmModel.branch) type += '/Branch';
+    if (atmModel.offSite) type += '/offSite';
 
     return type;
   }

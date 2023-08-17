@@ -11,6 +11,7 @@ import 'package:atm_tracker/views/admin_side/ads_list_screen.dart';
 import 'package:atm_tracker/views/admin_side/custom_widgets/big_button.dart';
 import 'package:atm_tracker/views/admin_side/employee_ids_screen.dart';
 import 'package:atm_tracker/views/admin_side/location_list_screen.dart';
+import 'package:atm_tracker/views/admin_side/regions_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -102,18 +103,25 @@ class AdminDashboard extends StatelessWidget {
             ],
           ),
           SizedBox(height: getVerticalSize(30)),
-          Padding(
-            padding: getPadding(left: 40),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: BigButton(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              BigButton(
                 buttonName: "ADs",
                 iconName: "ad_icon",
                 onTap: () async {
                   Get.to(AdsListScreen());
                 },
               ),
-            ),
+              BigButton(
+                buttonName: "Regions",
+                iconName: "ad_icon",
+                iconData: Icons.location_on,
+                onTap: () async {
+                  Get.to(RegionsView());
+                },
+              ),
+            ],
           )
         ],
       ),

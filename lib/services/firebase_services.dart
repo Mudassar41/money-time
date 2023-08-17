@@ -400,7 +400,7 @@ class FirebaseServices {
     }
   }
 
-  Future<AdModel?> getAd(int bankId) async {
+  Future<AdModel?> getAd(String bankId) async {
     try {
       print("BankID=>>>>${bankId}");
       var snapshot = await FirebaseFirestore.instance
@@ -411,7 +411,7 @@ class FirebaseServices {
 
       print('data => $snapshot');
       if (snapshot.docs.isEmpty) {
-        return AdModel(adUrl: '', views: 0, bankId: 401);
+        return AdModel(adUrl: '', views: 0, bankId: '401');
       } else {
         var adData = snapshot.docs.first.data();
         return AdModel.fromMap(adData);
@@ -422,7 +422,7 @@ class FirebaseServices {
     }
   }
 
-  Future incrementAdCount(int bankId) async {
+  Future incrementAdCount(String bankId) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection(adsCollection)
         .where('bankId', isEqualTo: bankId)

@@ -1,3 +1,5 @@
+
+
 class AtmModel {
   final bool isWorking;
   final String atmName;
@@ -5,6 +7,9 @@ class AtmModel {
   final bool isSmart;
   final bool isDualCurrency;
   final bool driveThrough;
+  final bool branch;
+  final bool offSite;
+
 
   AtmModel({
     required this.isWorking,
@@ -13,6 +18,8 @@ class AtmModel {
     required this.isSmart,
     required this.isDualCurrency,
     required this.driveThrough,
+    required this.branch,
+    required this.offSite,
   });
 
   AtmModel copyWith({
@@ -22,6 +29,8 @@ class AtmModel {
     bool? isSmart,
     bool? isDualCurrency,
     bool? driveThrough,
+    bool? branch,
+    bool? offSite,
   }) {
     return AtmModel(
       isWorking: isWorking ?? this.isWorking,
@@ -30,6 +39,8 @@ class AtmModel {
       isSmart: isSmart ?? this.isSmart,
       isDualCurrency: isDualCurrency ?? this.isDualCurrency,
       driveThrough: driveThrough ?? this.driveThrough,
+      branch: branch ?? this.branch,
+      offSite: offSite ?? this.offSite,
     );
   }
 
@@ -41,6 +52,8 @@ class AtmModel {
       'isSmart': isSmart,
       'isDualCurrency': isDualCurrency,
       'driveThrough': driveThrough,
+      'branch': branch,
+      'offSite': offSite,
     };
   }
 
@@ -52,6 +65,8 @@ class AtmModel {
       isSmart: map['isSmart'] as bool,
       isDualCurrency: map['isDualCurrency'] as bool,
       driveThrough: map['driveThrough'] as bool,
+      offSite: map['offSite'] as bool,
+      branch: map['branch'] as bool,
     );
   }
 }

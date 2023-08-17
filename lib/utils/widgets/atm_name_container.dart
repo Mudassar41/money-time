@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 class AtmNameContainer extends StatelessWidget {
   final String atmName;
 
-  AtmNameContainer({required this.atmName});
+  final bool status;
+
+  AtmNameContainer({required this.atmName, required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +19,13 @@ class AtmNameContainer extends StatelessWidget {
         CustomContainer(
           child: SmallText(
             text: atmName,
-            color: Colors.black87,
+            color: !status ? Colors.white : Colors.black87,
             fontFamily: AppFonts.montserratRegular,
             fontWeight: FontWeight.w700,
             size: 11,
           ),
           alignment: Alignment.center,
-          color: kGrey,
+          color:!status?Colors.red: kGrey,
           // margin: getMargin(left: 5, right: 5),
           padding: getPadding(left: 6, right: 6),
 

@@ -10,6 +10,7 @@ import 'package:atm_tracker/utils/widgets/custom_image.dart';
 import 'package:atm_tracker/utils/widgets/custom_text.dart';
 import 'package:atm_tracker/utils/widgets/custom_text_field.dart';
 import 'package:atm_tracker/views/employee_side/custom_widgets/employee_atm_box.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -347,6 +348,8 @@ class EditStatusLocation extends StatelessWidget {
                         controller.locationModel.value = locationModel.copyWith(
                           avgWaitTimeInMin: averageWaitingTimeInMins.value,
                           avgWaitTimeInHrs: averageWaitingTimeInHrs.value,
+                          updatedAt: Timestamp.now(),
+                          updated: true,
                         );
                         // print(averageWaitingTimeInMins.value);
 

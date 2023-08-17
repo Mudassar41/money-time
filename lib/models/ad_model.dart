@@ -1,7 +1,7 @@
 class AdModel {
   final String adUrl;
   final num views;
-  final int bankId;
+  final String bankId;
   AdModel({
     required this.adUrl,
     required this.views,
@@ -11,7 +11,7 @@ class AdModel {
   AdModel copyWith({
     String? adUrl,
     num? views,
-    int? bankId,
+    String? bankId,
   }) {
     return AdModel(
       adUrl: adUrl ?? this.adUrl,
@@ -32,7 +32,7 @@ class AdModel {
     return AdModel(
       adUrl: map['adUrl'] as String,
       views: map['views'] as num,
-      bankId: map['bankId'] as int,
+      bankId: map['bankId'] as String,
     );
   }
 }

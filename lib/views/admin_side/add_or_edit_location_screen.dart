@@ -2,8 +2,8 @@ import 'package:atm_tracker/controllers/admin_controller.dart';
 import 'package:atm_tracker/controllers/image_controller.dart';
 import 'package:atm_tracker/models/employee_model.dart';
 import 'package:atm_tracker/models/location_model.dart';
+import 'package:atm_tracker/services/services.dart';
 import 'package:atm_tracker/utils/constant/const.dart';
-import 'package:atm_tracker/utils/constant/strings.dart';
 import 'package:atm_tracker/utils/theme/app_fonts.dart';
 import 'package:atm_tracker/utils/theme/colors.dart';
 import 'package:atm_tracker/utils/utils.dart';
@@ -14,6 +14,7 @@ import 'package:atm_tracker/utils/widgets/custom_text.dart';
 import 'package:atm_tracker/utils/widgets/custom_text_field.dart';
 import 'package:atm_tracker/views/admin_side/custom_widgets/atm_box.dart';
 import 'package:atm_tracker/views/admin_side/employees_list_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,26 +35,26 @@ class AddEditLocationScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton.extended(
-            backgroundColor: kPrimary,
-            onPressed: () {
-              if (isNewLocation)
-                _adminController.handleAddOrUpdateButtonPress(
-                    isNewLocation, "");
-              else
-                _adminController.handleAddOrUpdateButtonPress(
-                  isNewLocation,
-                  locationModel!.locationId,
-                  locationModel: locationModel,
-                );
-            },
-            label: LargeText(
-              text: isNewLocation ? "ADD LOCATION" : "UPDATE LOCATION",
-              fontFamily: AppFonts.montserratBold,
-              size: 18,
-              color: kWhite,
-            )),
+        // //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        // floatingActionButton: FloatingActionButton.extended(
+        //     backgroundColor: kPrimary,
+        //     onPressed: () {
+        //       if (isNewLocation)
+        //         _adminController.handleAddOrUpdateButtonPress(
+        //             isNewLocation, "");
+        //       else
+        //         _adminController.handleAddOrUpdateButtonPress(
+        //           isNewLocation,
+        //           locationModel!.locationId,
+        //           locationModel: locationModel,
+        //         );
+        //     },
+        //     label: LargeText(
+        //       text: isNewLocation ? "ADD LOCATION" : "UPDATE LOCATION",
+        //       fontFamily: AppFonts.montserratBold,
+        //       size: 18,
+        //       color: kWhite,
+        //     )),
         appBar: AppBar(
           title: LargeText(
             text: isNewLocation ? "ADD LOCATION" : 'EDIT LOCATION',
@@ -196,6 +197,9 @@ class AddEditLocationScreen extends StatelessWidget {
                                       _adminController.getRegionBanks(
                                         _adminController.regions[index].id!,
                                       );
+
+                                      _adminController.bankNameController.text =
+                                          'Select Bank';
                                     },
                                     child: SmallText(
                                       text:
@@ -215,210 +219,167 @@ class AddEditLocationScreen extends StatelessWidget {
                           //     validator: (v) =>
                           //         _adminController.fieldValidator(v!),
                           //     controller: _adminController.parishController),
-                          SizedBox(height: getVerticalSize(10)),
-                          Row(
-                            children: [
-                              // LargeText(
-                              //   text: "Branch",
-                              //   fontFamily: AppFonts.montserratBold,
-                              //   size: getFontSize(20),
-                              //   margin: getMargin(bottom: 10),
-                              // ),
-                              // SizedBox(width: getHorizontalSize(100)),
-                              // Obx(() {
-                              //   return Switch(
-                              //       inactiveTrackColor: kRed,
-                              //       thumbColor:
-                              //           MaterialStatePropertyAll(kWhite),
-                              //       activeColor: kGreen,
-                              //       value: _adminController.branch.value,
-                              //       onChanged: (v) {
-                              //         print(v);
-                              //         _adminController.branch.value = v;
-                              //       });
-                              // }),
-
-                              Obx(
-                                () {
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              _adminController.isBranch(
-                                                  !_adminController
-                                                      .isBranch.value);
-                                              if (_adminController
-                                                  .isBranch.value) {
-                                                _adminController.offSite(false);
-                                                _adminController.branch(true);
-                                              } else {
-                                                _adminController.offSite(true);
-                                                _adminController.branch(false);
-                                              }
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                color: kPrimary,
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      width: 60,
-                                                      height: 20,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30),
-                                                        color: _adminController
-                                                                .isBranch.value
-                                                            ? Colors.white
-                                                            : kPrimary,
-                                                      ),
-                                                      child: Center(
-                                                          child: SmallText(
-                                                        text: 'Branch',
-                                                        fontFamily: AppFonts
-                                                            .montserratRegular,
-                                                      )),
-                                                    ),
-                                                    Container(
-                                                      width: 60,
-                                                      height: 20,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30),
-                                                        color: _adminController
-                                                                .isBranch.value
-                                                            ? kPrimary
-                                                            : Colors.white,
-                                                      ),
-                                                      child: Center(
-                                                        child: SmallText(
-                                                          text: 'Offsite',
-                                                          fontFamily: AppFonts
-                                                              .montserratRegular,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 10),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
+                          // SizedBox(height: getVerticalSize(10)),
+                          // Row(
+                          //   children: [
+                          //     Obx(
+                          //       () {
+                          //         return Column(
+                          //           crossAxisAlignment:
+                          //               CrossAxisAlignment.start,
+                          //           children: [
+                          //             Row(
+                          //               mainAxisAlignment:
+                          //                   MainAxisAlignment.spaceBetween,
+                          //               children: [
+                          //                 GestureDetector(
+                          //                   onTap: () {
+                          //                     _adminController.isBranch(
+                          //                         !_adminController
+                          //                             .isBranch.value);
+                          //                     if (_adminController
+                          //                         .isBranch.value) {
+                          //                       _adminController.offSite(false);
+                          //                       _adminController.branch(true);
+                          //                     } else {
+                          //                       _adminController.offSite(true);
+                          //                       _adminController.branch(false);
+                          //                     }
+                          //                   },
+                          //                   child: Container(
+                          //                     decoration: BoxDecoration(
+                          //                       borderRadius:
+                          //                           BorderRadius.circular(30),
+                          //                       color: kPrimary,
+                          //                     ),
+                          //                     child: Padding(
+                          //                       padding:
+                          //                           const EdgeInsets.all(8.0),
+                          //                       child: Row(
+                          //                         mainAxisAlignment:
+                          //                             MainAxisAlignment
+                          //                                 .spaceBetween,
+                          //                         children: [
+                          //                           Container(
+                          //                             width: 60,
+                          //                             height: 20,
+                          //                             decoration: BoxDecoration(
+                          //                               borderRadius:
+                          //                                   BorderRadius
+                          //                                       .circular(30),
+                          //                               color: _adminController
+                          //                                       .isBranch.value
+                          //                                   ? Colors.white
+                          //                                   : kPrimary,
+                          //                             ),
+                          //                             child: Center(
+                          //                                 child: SmallText(
+                          //                               text: 'Branch',
+                          //                               fontFamily: AppFonts
+                          //                                   .montserratRegular,
+                          //                             )),
+                          //                           ),
+                          //                           Container(
+                          //                             width: 60,
+                          //                             height: 20,
+                          //                             decoration: BoxDecoration(
+                          //                               borderRadius:
+                          //                                   BorderRadius
+                          //                                       .circular(30),
+                          //                               color: _adminController
+                          //                                       .isBranch.value
+                          //                                   ? kPrimary
+                          //                                   : Colors.white,
+                          //                             ),
+                          //                             child: Center(
+                          //                               child: SmallText(
+                          //                                 text: 'Offsite',
+                          //                                 fontFamily: AppFonts
+                          //                                     .montserratRegular,
+                          //                               ),
+                          //                             ),
+                          //                           ),
+                          //                         ],
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //             SizedBox(height: 10),
+                          //           ],
+                          //         );
+                          //       },
+                          //     ),
+                          //   ],
+                          // ),
+                          //
+                          // LargeText(
+                          //   text: "Status",
+                          //   size: getFontSize(20),
+                          //   fontFamily: AppFonts.montserratBold,
+                          // ),
                           // Row(
                           //   children: [
                           //     LargeText(
-                          //       text: "Offsite",
-                          //       size: getFontSize(20),
-                          //       margin: getMargin(bottom: 10),
+                          //       text: "Smart  ",
+                          //       size: getFontSize(18),
+                          //       color: Colors.black,
+                          //       fontFamily: AppFonts.montserratBold,
                           //     ),
-                          //     SizedBox(
-                          //       width: getHorizontalSize(100),
+                          //     Obx(
+                          //       () => Switch(
+                          //           inactiveTrackColor: kRed,
+                          //           thumbColor:
+                          //               MaterialStatePropertyAll(kWhite),
+                          //           activeColor: kGreen,
+                          //           value: _adminController.isSmart.value,
+                          //           onChanged: (v) {
+                          //             _adminController.isSmart.value = v;
+                          //           }),
                           //     ),
-                          // Obx(() {
-                          //   return Switch(
-                          //       inactiveTrackColor: kRed,
-                          //       thumbColor:
-                          //           MaterialStatePropertyAll(kWhite),
-                          //       activeColor: kGreen,
-                          //       value: _adminController.offSite.value,
-                          //       onChanged: (v) {
-                          //         print(v);
-                          //         _adminController.offSite.value = v;
-                          //       });
-                          // }),
-                          //     ],
-                          //  ),
-                          LargeText(
-                            text: "Status",
-                            size: getFontSize(20),
-                            fontFamily: AppFonts.montserratBold,
-                          ),
-                          Row(
-                            children: [
-                              LargeText(
-                                text: "Smart  ",
-                                size: getFontSize(18),
-                                color: Colors.black,
-                                fontFamily: AppFonts.montserratBold,
-                              ),
-                              Obx(
-                                () => Switch(
-                                    inactiveTrackColor: kRed,
-                                    thumbColor:
-                                        MaterialStatePropertyAll(kWhite),
-                                    activeColor: kGreen,
-                                    value: _adminController.isSmart.value,
-                                    onChanged: (v) {
-                                      _adminController.isSmart.value = v;
-                                    }),
-                              ),
-                              LargeText(
-                                text: "Dual Currency ",
-                                size: getFontSize(18),
-                                fontFamily: AppFonts.montserratBold,
-                                color: Colors.black,
-                              ),
-                              Obx(
-                                () => Switch(
-                                    inactiveTrackColor: kRed,
-                                    thumbColor:
-                                        MaterialStatePropertyAll(kWhite),
-                                    activeColor: kGreen,
-                                    value:
-                                        _adminController.isDualCurrency.value,
-                                    onChanged: (v) {
-                                      _adminController.isDualCurrency.value = v;
-                                    }),
-                              )
-                            ],
-                          ),
-
-                          Row(
-                            children: [
-                              LargeText(
-                                text: "Drive through  ",
-                                size: getFontSize(18),
-                                color: Colors.black,
-                                fontFamily: AppFonts.montserratBold,
-                              ),
-                              Obx(
-                                () => Switch(
-                                    inactiveTrackColor: kRed,
-                                    thumbColor:
-                                        MaterialStatePropertyAll(kWhite),
-                                    activeColor: kGreen,
-                                    value: _adminController.driveThrough.value,
-                                    onChanged: (v) {
-                                      _adminController.driveThrough.value = v;
-                                    }),
-                              ),
-                            ],
-                          ),
+                          //     LargeText(
+                          //       text: "Dual Currency ",
+                          //       size: getFontSize(18),
+                          //       fontFamily: AppFonts.montserratBold,
+                          //       color: Colors.black,
+                          //     ),
+                          //     Obx(
+                          //       () => Switch(
+                          //           inactiveTrackColor: kRed,
+                          //           thumbColor:
+                          //               MaterialStatePropertyAll(kWhite),
+                          //           activeColor: kGreen,
+                          //           value:
+                          //               _adminController.isDualCurrency.value,
+                          //           onChanged: (v) {
+                          //             _adminController.isDualCurrency.value = v;
+                          //           }),
+                          //     )
+                          //   ],
+                          // ),
+                          //
+                          // Row(
+                          //   children: [
+                          //     LargeText(
+                          //       text: "Drive through  ",
+                          //       size: getFontSize(18),
+                          //       color: Colors.black,
+                          //       fontFamily: AppFonts.montserratBold,
+                          //     ),
+                          //     Obx(
+                          //       () => Switch(
+                          //           inactiveTrackColor: kRed,
+                          //           thumbColor:
+                          //               MaterialStatePropertyAll(kWhite),
+                          //           activeColor: kGreen,
+                          //           value: _adminController.driveThrough.value,
+                          //           onChanged: (v) {
+                          //             _adminController.driveThrough.value = v;
+                          //           }),
+                          //     ),
+                          //   ],
+                          // ),
 
                           CustomButton(
                             title: "Select Employee",
@@ -548,6 +509,217 @@ class AddEditLocationScreen extends StatelessWidget {
                                           },
                                         ),
                                       ),
+                                      Row(
+                                        children: [
+                                          Obx(
+                                            () {
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          _adminController
+                                                              .isBranch(
+                                                                  !_adminController
+                                                                      .isBranch
+                                                                      .value);
+                                                          if (_adminController
+                                                              .isBranch.value) {
+                                                            _adminController
+                                                                .offSite(false);
+                                                            _adminController
+                                                                .branch(true);
+                                                          } else {
+                                                            _adminController
+                                                                .offSite(true);
+                                                            _adminController
+                                                                .branch(false);
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
+                                                            color: kPrimary,
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Container(
+                                                                  width: 60,
+                                                                  height: 20,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30),
+                                                                    color: _adminController
+                                                                            .isBranch
+                                                                            .value
+                                                                        ? Colors
+                                                                            .white
+                                                                        : kPrimary,
+                                                                  ),
+                                                                  child: Center(
+                                                                      child:
+                                                                          SmallText(
+                                                                    text:
+                                                                        'Branch',
+                                                                    fontFamily:
+                                                                        AppFonts
+                                                                            .montserratRegular,
+                                                                  )),
+                                                                ),
+                                                                Container(
+                                                                  width: 60,
+                                                                  height: 20,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30),
+                                                                    color: _adminController
+                                                                            .isBranch
+                                                                            .value
+                                                                        ? kPrimary
+                                                                        : Colors
+                                                                            .white,
+                                                                  ),
+                                                                  child: Center(
+                                                                    child:
+                                                                        SmallText(
+                                                                      text:
+                                                                          'Offsite',
+                                                                      fontFamily:
+                                                                          AppFonts
+                                                                              .montserratRegular,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 10),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      LargeText(
+                                        text: "Status",
+                                        size: getFontSize(20),
+                                        fontFamily: AppFonts.montserratBold,
+                                      ),
+                                      Row(
+                                        children: [
+                                          LargeText(
+                                            text: "Smart  ",
+                                            size: getFontSize(18),
+                                            color: Colors.black,
+                                            fontFamily: AppFonts.montserratBold,
+                                          ),
+                                          Obx(
+                                            () => Switch(
+                                                inactiveTrackColor: kRed,
+                                                thumbColor:
+                                                    MaterialStatePropertyAll(
+                                                        kWhite),
+                                                activeColor: kGreen,
+                                                value: _adminController
+                                                    .isSmart.value,
+                                                onChanged: (v) {
+                                                  _adminController
+                                                      .isSmart.value = v;
+                                                }),
+                                          ),
+                                          // LargeText(
+                                          //   text: "Dual Currency ",
+                                          //   size: getFontSize(18),
+                                          //   fontFamily: AppFonts.montserratBold,
+                                          //   color: Colors.black,
+                                          // ),
+                                          // Obx(
+                                          //       () => Switch(
+                                          //       inactiveTrackColor: kRed,
+                                          //       thumbColor:
+                                          //       MaterialStatePropertyAll(kWhite),
+                                          //       activeColor: kGreen,
+                                          //       value:
+                                          //       _adminController.isDualCurrency.value,
+                                          //       onChanged: (v) {
+                                          //         _adminController.isDualCurrency.value = v;
+                                          //       }),
+                                          // )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          LargeText(
+                                            text: "Dual Currency ",
+                                            size: getFontSize(18),
+                                            fontFamily: AppFonts.montserratBold,
+                                            color: Colors.black,
+                                          ),
+                                          Obx(
+                                            () => Switch(
+                                                inactiveTrackColor: kRed,
+                                                thumbColor:
+                                                    MaterialStatePropertyAll(
+                                                        kWhite),
+                                                activeColor: kGreen,
+                                                value: _adminController
+                                                    .isDualCurrency.value,
+                                                onChanged: (v) {
+                                                  _adminController
+                                                      .isDualCurrency.value = v;
+                                                }),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          LargeText(
+                                            text: "Drive through  ",
+                                            size: getFontSize(18),
+                                            color: Colors.black,
+                                            fontFamily: AppFonts.montserratBold,
+                                          ),
+                                          Obx(
+                                            () => Switch(
+                                                inactiveTrackColor: kRed,
+                                                thumbColor:
+                                                    MaterialStatePropertyAll(
+                                                        kWhite),
+                                                activeColor: kGreen,
+                                                value: _adminController
+                                                    .driveThrough.value,
+                                                onChanged: (v) {
+                                                  _adminController
+                                                      .driveThrough.value = v;
+                                                }),
+                                          ),
+                                        ],
+                                      ),
                                       TextButton(
                                         onPressed: () {
                                           _adminController.addAtmToList();
@@ -567,6 +739,78 @@ class AddEditLocationScreen extends StatelessWidget {
                           SizedBox(
                             height: getVerticalSize(50),
                           ),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                child: CustomButton(
+                                  title: isNewLocation
+                                      ? "ADD LOCATION"
+                                      : "UPDATE LOCATION",
+                                  textColor: kWhite,
+                                  color: kPrimary,
+                                  textSize: 12,
+                                  onTap: () {
+                                    if (isNewLocation)
+                                      _adminController
+                                          .handleAddOrUpdateButtonPress(
+                                              isNewLocation, "");
+                                    else
+                                      _adminController
+                                          .handleAddOrUpdateButtonPress(
+                                        isNewLocation,
+                                        locationModel!.locationId,
+                                        locationModel: locationModel,
+                                      );
+                                  },
+                                ),
+                              ),
+                              if (!isNewLocation) ...[
+                                SizedBox(width: 1),
+                                Expanded(
+                                  child: CustomButton(
+                                    title: "Delete Location",
+                                    textColor: kWhite,
+                                    textSize: 12,
+                                    color: Colors.red,
+                                    onTap: () {
+                                      Get.defaultDialog(
+                                        title: "Are your sure?",
+                                        textCancel: "No",
+                                        textConfirm: "Yes",
+                                        cancelTextColor: kPrimary,
+                                        confirmTextColor: kRed,
+                                        content: SmallText(
+                                          text: "Do you want to delete?",
+                                        ),
+                                        onConfirm: () async {
+                                          try {
+                                            Services.showLoading();
+                                            var reference = FirebaseFirestore
+                                                .instance
+                                                .collection('ATMs')
+                                                .doc(locationModel!.locationId);
+
+                                            await reference.delete();
+
+                                            Services.hideLoading();
+                                            Get.back();
+                                            Services.successMessage(
+                                              'Location Deleted',
+                                            );
+                                            _adminController.getLocations();
+                                           // Get.back();
+                                          } catch (e) {
+                                            Services.errorMessage(e.toString());
+                                          }
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ]
+                            ],
+                          )
                         ]),
                   ),
                 )

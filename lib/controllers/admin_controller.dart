@@ -11,6 +11,7 @@ import 'package:atm_tracker/utils/theme/colors.dart';
 import 'package:atm_tracker/utils/utils.dart';
 import 'package:atm_tracker/views/admin_side/ad_uploading_screen.dart';
 import 'package:atm_tracker/views/admin_side/add_or_edit_location_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:atm_tracker/services/firebase_services.dart';
@@ -159,6 +160,8 @@ class AdminController extends GetxController {
         isSmart: isSmart.value,
         isDualCurrency: isDualCurrency.value,
         driveThrough: driveThrough.value,
+        offSite: offSite.value,
+        branch: branch.value,
       ));
     atmNameController.clear();
     isWorking(false);
@@ -171,19 +174,22 @@ class AdminController extends GetxController {
       atmImageUrl.value = await Services.uploadFile(atmImage.value!,
           "AtmPictures/${DateTime.now().millisecondsSinceEpoch}");
     }
+    //todo
     LocationModel locationModel = LocationModel(
       locationName: locationNameController.text.trim(),
       city: cityController.text.trim(),
       locationId: "",
       address: addressController.text.trim(),
-      offSite: offSite.value,
-      branch: branch.value,
+      // offSite: offSite.value,
+      // branch: branch.value,
       parish: parishController.text.trim(),
       employeeId: employeeId.value,
       imageUrl: atmImageUrl.value,
       atms: atmsList,
       avgWaitTimeInHrs: '0',
       avgWaitTimeInMin: '0',
+      updatedAt: Timestamp.now(),
+      updated: false,
     );
 
     print(locationModel.toMap());
@@ -205,19 +211,22 @@ class AdminController extends GetxController {
           atmImageUrl.value))!;
       atmImage.value = null;
     }
+    //todo
     LocationModel locationModel = LocationModel(
       locationName: locationNameController.text.trim(),
       city: cityController.text.trim(),
       locationId: locationId,
       address: addressController.text.trim(),
-      offSite: offSite.value,
-      branch: branch.value,
+      // offSite: offSite.value,
+      // branch: branch.value,
       parish: parishController.text.trim(),
       employeeId: employeeId.value,
       imageUrl: atmImageUrl.value,
       atms: atmsList,
       avgWaitTimeInMin: locationModel1.avgWaitTimeInMin,
       avgWaitTimeInHrs: locationModel1.avgWaitTimeInHrs,
+      updatedAt: locationModel1.updatedAt,
+      updated: false,
     );
 
     print(locationModel);
@@ -228,20 +237,21 @@ class AdminController extends GetxController {
     Services.hideLoading();
   }
 
+//todo
   editLocationValues(int index) {
     locationNameController.text = locationsList[index].locationName;
     cityController.text = locationsList[index].city;
     addressController.text = locationsList[index].address;
-    offSite.value = locationsList[index].offSite;
-    branch.value = locationsList[index].branch;
+    // offSite.value = locationsList[index].offSite;
+    // branch.value = locationsList[index].branch;
     parishController.text = locationsList[index].parish;
     isSmart.value = locationsList[index].atms[0].isSmart;
     isDualCurrency.value = locationsList[index].atms[0].isDualCurrency;
     employeeId.value = locationsList[index].employeeId;
     atmsList.value = locationsList[index].atms;
     atmImageUrl.value = locationsList[index].imageUrl!;
-
-    getSingleRegion(parishController.text);
+    print(parishController.text);
+    // getSingleRegion(locationsList[index].parish);
 
     Get.to(() {
       return AddEditLocationScreen(
@@ -271,7 +281,7 @@ class AdminController extends GetxController {
     }
   }
 
-  uploadVideo(int bankId, XFile video) async {
+  uploadVideo(String bankId, XFile video) async {
     Services.showLoading();
     await FirebaseServices().uploadAdVideo(video.path, bankId);
     views.value = 0;
@@ -279,7 +289,7 @@ class AdminController extends GetxController {
     Services.successMessage("Ad Video Uploaded");
   }
 
-  getRemoteAdVideo(int bankId) async {
+  getRemoteAdVideo(String bankId) async {
     Services.showLoading();
     AdModel? adModel = await FirebaseServices().getAd(bankId);
 

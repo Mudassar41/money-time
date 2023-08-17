@@ -18,7 +18,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 class AdUploadingScreen extends StatefulWidget {
-  final int bankId;
+  final String bankId;
 
   AdUploadingScreen({super.key, required this.bankId});
 
@@ -222,8 +222,8 @@ class _AdUploadingScreenState extends State<AdUploadingScreen> {
       isLoading = true;
     });
     adModel = await firebaseService.getAd(widget.bankId) ??
-        AdModel(adUrl: '', bankId: 401, views: 0);
-    if (adModel.bankId != 401) {
+        AdModel(adUrl: '', bankId: '401', views: 0);
+    if (adModel.bankId != '401') {
       views = adModel.views.toString();
       _controller = VideoPlayerController.network(
         adModel.adUrl,

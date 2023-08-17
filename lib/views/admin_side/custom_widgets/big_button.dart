@@ -1,4 +1,5 @@
 import 'package:atm_tracker/utils/theme/app_fonts.dart';
+import 'package:atm_tracker/utils/theme/colors.dart';
 import 'package:atm_tracker/utils/utils.dart';
 import 'package:atm_tracker/utils/widgets/custom_container.dart';
 import 'package:atm_tracker/utils/widgets/custom_image.dart';
@@ -11,11 +12,13 @@ class BigButton extends StatelessWidget {
     required this.buttonName,
     required this.iconName,
     required this.onTap,
+    this.iconData,
   });
 
   final String iconName;
   final String buttonName;
   final VoidCallback onTap;
+  final IconData? iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +32,18 @@ class BigButton extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CustomImage(
-              pathOrUrl: customAssetImage(iconName),
-              height: getVerticalSize(70),
-              fit: BoxFit.fill,
-            ),
+            if (iconData != null)
+              Icon(
+                iconData,
+                color: kPrimary,
+                size: 40,
+              )
+            else
+              CustomImage(
+                pathOrUrl: customAssetImage(iconName),
+                height: getVerticalSize(70),
+                fit: BoxFit.fill,
+              ),
             LargeText(
               text: buttonName,
               fontFamily: AppFonts.montserratBold,

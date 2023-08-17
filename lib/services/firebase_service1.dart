@@ -10,7 +10,7 @@ class FirebaseServiceV1 {
       FirebaseFirestore.instance.collection('AdsCollection');
   final storageRef = FirebaseStorage.instance.ref('adVideos');
 
-  addUpdateAd(int bankId, String filePath) async {
+  addUpdateAd(String bankId, String filePath) async {
     Services.showLoading();
     bool isAdExist = await adExist(bankId);
     if (isAdExist) {
@@ -25,7 +25,7 @@ class FirebaseServiceV1 {
     }
   }
 
-  Future<bool> adExist(int bankId) async {
+  Future<bool> adExist(String bankId) async {
     QuerySnapshot data =
         await adsCollection.where('bankId', isEqualTo: bankId).get();
 
@@ -36,7 +36,7 @@ class FirebaseServiceV1 {
     }
   }
 
-  Future<void> updateAd(int bankId, String path) async {
+  Future<void> updateAd(String bankId, String path) async {
     var task;
     try {
       task = await storageRef.child('Ad $bankId').putFile(
@@ -63,7 +63,7 @@ class FirebaseServiceV1 {
     }
   }
 
-  Future<void> uploadAdVideo(int bankId, String path) async {
+  Future<void> uploadAdVideo(String bankId, String path) async {
     var task;
     try {
       task = await storageRef.child('Ad $bankId').putFile(

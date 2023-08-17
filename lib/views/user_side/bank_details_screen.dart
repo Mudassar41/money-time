@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BankDetailsScreen extends StatelessWidget {
-  final int bankId;
+  final String bankId;
   final String bankName;
 
   BankDetailsScreen({

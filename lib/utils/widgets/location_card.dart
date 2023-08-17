@@ -1,3 +1,4 @@
+import 'package:atm_tracker/models/atm_model.dart';
 import 'package:atm_tracker/utils/constant/const.dart';
 import 'package:atm_tracker/utils/theme/app_fonts.dart';
 import 'package:atm_tracker/utils/theme/colors.dart';
@@ -14,7 +15,7 @@ class LocationCard extends StatelessWidget {
   final String details;
   final num elevation;
   final VoidCallback onTap;
-  final List atms;
+  final List<AtmModel> atms;
   final String? parish;
 
   LocationCard(
@@ -91,6 +92,8 @@ class LocationCard extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return AtmNameContainer(
                           atmName: atms[index].atmName,
+                          status: atms[index].isWorking,
+                          //   status:atms[index].,
                         );
                       },
                     ),

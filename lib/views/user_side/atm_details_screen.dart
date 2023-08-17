@@ -9,8 +9,10 @@ import 'package:atm_tracker/utils/widgets/custom_image.dart';
 import 'package:atm_tracker/utils/widgets/custom_text.dart';
 import 'package:atm_tracker/views/user_side/custom_widgets/user_appbar.dart';
 import 'package:atm_tracker/views/user_side/custom_widgets/user_atm_box.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class AtmDetailsScreen extends StatelessWidget {
   final LocationModel locationModel;
@@ -208,15 +210,17 @@ class AtmDetailsScreen extends StatelessWidget {
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return UserAtmBox(
-                                  isDrive:locationModel.atms[index].driveThrough,
+                                  //todo
+                                  isDrive:
+                                      locationModel.atms[index].driveThrough,
                                   atmName: locationModel.atms[index].atmName,
                                   bankName: locationModel.atms[index].bankName,
                                   isDualCurrency:
                                       locationModel.atms[index].isDualCurrency,
-                                  isSmart: locationModel.atms[index].isSmart,
+                                  isSmart: true,
                                   isWorking:
                                       locationModel.atms[index].isWorking,
-                                  isBranch: locationModel.branch,
+                                  isBranch: true,
                                 );
                               }),
                           SizedBox(height: 10),
@@ -250,14 +254,21 @@ class AtmDetailsScreen extends StatelessWidget {
                                     text: "Average waiting time:",
                                     size: 14,
                                     fontFamily: AppFonts.montserratBold,
-                                  )
+                                  ),
+                                  SizedBox(height: getVerticalSize(20)),
+                                  if (locationModel.updated!)
+                                    LargeText(
+                                      text: "Updated at",
+                                      size: 14,
+                                      fontFamily: AppFonts.montserratBold,
+                                    )
                                 ],
                               ),
                               SizedBox(
                                 width: getHorizontalSize(20),
                               ),
                               Container(
-                                height: getVerticalSize(60),
+                                height: getVerticalSize(80),
                                 width: getHorizontalSize(2),
                                 color: kBlack,
                               ),
@@ -287,20 +298,15 @@ class AtmDetailsScreen extends StatelessWidget {
                                   Row(
                                     children: [
                                       ...[
-                                        if (
-                                            locationModel.avgWaitTimeInMin ==
-                                                '0')
-                                          if (
-                                              locationModel.avgWaitTimeInHrs ==
-                                                  '0')
-                                            Text(
-                                              "0 min",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                  fontFamily:
-                                                  AppFonts.montserratRegular
-                                              )
-                                            )
+                                        if (locationModel.avgWaitTimeInMin ==
+                                            '0')
+                                          if (locationModel.avgWaitTimeInHrs ==
+                                              '0')
+                                            Text("0 min",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: AppFonts
+                                                        .montserratRegular))
                                       ],
                                       if (locationModel?.avgWaitTimeInMin
                                                   ?.isNotEmpty ==
@@ -327,6 +333,14 @@ class AtmDetailsScreen extends StatelessWidget {
                                         ),
                                     ],
                                   ),
+                                  SizedBox(height: 10),
+                                  if (locationModel.updated!)
+                                    LargeText(
+                                      text:
+                                          "${DateFormat('dd/MM/yyyy').format(DateTime.parse(locationModel.updatedAt!.toDate().toString()))}",
+                                      size: getFontSize(16),
+                                      fontFamily: AppFonts.montserratRegular,
+                                    ),
                                 ],
                               ),
                             ],
@@ -335,7 +349,8 @@ class AtmDetailsScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                ))
+                )),
+            SizedBox(height: 20)
           ],
         ),
       ),

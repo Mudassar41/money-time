@@ -96,19 +96,37 @@ class UserController extends GetxController {
           .toList()
           .obs;
     } else if (filter.value == "branch") {
-      RxList<LocationModel> offSiteFilteredList = bankFilteredList
-          .where((location) => location.branch == true)
+
+      filteredList = bankFilteredList
+          .where((location) {
+        for (int i = 0; i < location.atms.length; i++) {
+          if (location.atms[i].branch) return true;
+        }
+        return false;
+      })
           .toList()
           .obs;
-
-      filteredList = offSiteFilteredList;
     } else if (filter.value == "offSite") {
-      RxList<LocationModel> offSiteFilteredList = bankFilteredList
-          .where((location) => location.offSite == true)
+      //todo
+      // RxList<LocationModel> offSiteFilteredList = bankFilteredList
+      //     .where((location) => location.offSite == true)
+      //     .toList()
+      //     .obs;
+      //
+      // filteredList = offSiteFilteredList;
+
+
+
+
+      filteredList = bankFilteredList
+          .where((location) {
+        for (int i = 0; i < location.atms.length; i++) {
+          if (location.atms[i].offSite) return true;
+        }
+        return false;
+      })
           .toList()
           .obs;
-
-      filteredList = offSiteFilteredList;
     } else if (filter.value == 'drive') {
       filteredList = bankFilteredList
           .where((location) {
@@ -152,11 +170,11 @@ class UserController extends GetxController {
         break;
       }
     }
+    //todo
 
-
-    if (filteredList[index].offSite) offSite = "Offsite";
-
-    if (filteredList[index].branch) branch = "Branch";
+    // if (filteredList[index].offSite) offSite = "Offsite";
+    //
+    // if (filteredList[index].branch) branch = "Branch";
     List<String> detailsList = [smart, dualCurrency, offSite, branch,driveThrough];
 
     for (String v in detailsList) {
@@ -180,7 +198,7 @@ class UserController extends GetxController {
 //todo will fix later
   getRemoteAdVideo(
     int index,
-    int bankId,
+    String bankId,
   ) async {
     Services.showLoading(isBackEnabled: false);
     AdModel? adModel = await FirebaseServices().getAd(bankId);

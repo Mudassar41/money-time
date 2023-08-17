@@ -6,6 +6,10 @@ import 'colors.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
+
+      appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       scaffoldBackgroundColor: kWhite,
       primarySwatch: GetMaterialColor.color(kWhite));
 
